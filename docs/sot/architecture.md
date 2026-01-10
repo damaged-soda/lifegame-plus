@@ -12,8 +12,13 @@ Last Updated: 2026-01-10
 - 边界策略：环绕（toroidal）
 - 数据结构：`grid = { width, height, cells: Uint8Array }`
 - 演进纯函数：`step(grid, rule?) -> newGrid`（不原地修改 `cells`）
-- 规则可配置（为后续扩展预留）：`rule = { birth: number[], survive: number[] }`，默认 Conway 规则 B3/S23
+- 规则可配置：`rule = { birth: number[], survive: number[] }`，默认 Conway 规则 B3/S23
 - 播放循环：`web/main.js` 采用 `requestAnimationFrame + 时间累积步进` 来支持高倍率（x0.5 ~ x100），并避免极小 `setInterval` 带来的不稳定
+- 规则面板交互约束：播放中禁用规则面板；仅暂停时允许切换规则（选择规则集或勾选原子规则），切换后从当前棋盘继续演进（不重置）
+- 原子规则（可视化）与 `B.../S...` 的映射：
+  - Birth：9 张（n=0..8），勾选表示 `n ∈ rule.birth`；A 图中心为“死”，B 图中心表示下一步是否为“活”
+  - Survive：9 张（n=0..8），勾选表示 `n ∈ rule.survive`；A 图中心为“活”，B 图中心表示下一步是否为“活”
+  - 说明：Life-like 规则只依赖邻居数量 `n`，不依赖邻居几何位置；卡片 A 图邻居摆放仅用于示意，按从 N 起顺时针填充（N→NE→E→SE→S→SW→W→NW）
 
 ## 跨 repo 交互（如适用）
 - `web/main.js` 通过 ES Module 相对路径导入引擎：`import { ... } from "../engine/lifegame.js"`
