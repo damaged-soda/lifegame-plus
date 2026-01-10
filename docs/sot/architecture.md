@@ -19,6 +19,10 @@ Last Updated: 2026-01-10
   - Birth：9 张（n=0..8），勾选表示 `n ∈ rule.birth`；A 图中心为“死”，B 图中心表示下一步是否为“活”
   - Survive：9 张（n=0..8），勾选表示 `n ∈ rule.survive`；A 图中心为“活”，B 图中心表示下一步是否为“活”
   - 说明：Life-like 规则只依赖邻居数量 `n`，不依赖邻居几何位置；卡片 A 图邻居摆放仅用于示意，按从 N 起顺时针填充（N→NE→E→SE→S→SW→W→NW）
+- 棋盘编辑（初始化白板）：
+  - `Reset`：清空棋盘为全死白板，并强制进入暂停态（不重置 speed/rule）
+  - 编辑约束：仅暂停时响应；播放时忽略输入
+  - 交互：单击 toggle 单格；按住拖动连续画黑/擦白（以按下时所在格决定本次拖动目标状态）
 
 ## 跨 repo 交互（如适用）
 - `web/main.js` 通过 ES Module 相对路径导入引擎：`import { ... } from "../engine/lifegame.js"`
