@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>lifegame-plus</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section class="stage">
+        <canvas id="grid" class="grid" width="100" height="100"></canvas>
+        <div class="controls">
+          <button id="toggle" class="toggle" type="button">播放</button>
+          <button id="reset" class="toggle" type="button">重置</button>
+          <label class="speed">
+            <span class="speed-label">速率</span>
+            <select id="speed" class="speed-select">
+              <option value="0.5">x0.5</option>
+              <option value="1" selected>x1</option>
+              <option value="2">x2</option>
+              <option value="5">x5</option>
+              <option value="10">x10</option>
+              <option value="20">x20</option>
+              <option value="50">x50</option>
+              <option value="100">x100</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <aside class="panel">
+        <header class="panel-header">
+          <div class="panel-title-row">
+            <h2 class="panel-title">规则</h2>
+            <span id="rulePanelState" class="panel-state">已暂停</span>
+          </div>
+          <div class="panel-current">
+            说明：方向不等价（上/下有语义）；规则对 A/B/C 同时生效（各类型只看同类型邻居）。
+          </div>
+        </header>
+
+	        <fieldset id="rulePanel" class="panel-body">
+	          <section class="panel-section">
+	            <h3 class="section-title">规则集</h3>
+	            <label class="ruleset">
+	              <span class="ruleset-label">预设</span>
+	              <select id="rulesetSelect" class="ruleset-select"></select>
+	            </label>
+	          </section>
+
+	          <section class="panel-section">
+	            <h3 class="section-title">随机种子</h3>
+	            <div class="seed-row">
+	              <label class="seed">
+	                <span class="seed-label">种子</span>
+	                <input
+	                  id="seedInput"
+	                  class="seed-input"
+	                  type="text"
+	                  inputmode="numeric"
+	                  autocomplete="off"
+	                  spellcheck="false"
+	                />
+	              </label>
+	              <button id="retry" class="seed-retry" type="button">重试</button>
+	            </div>
+	            <div class="section-hint">提示：修改后回车/失焦生效；“重试”会随机生成新 seed 并重新初始化。</div>
+	          </section>
+
+	          <section class="panel-section">
+	            <h3 class="section-title">元规则</h3>
+	            <div class="section-hint">可选：决定游戏规则的规则（非元胞推演规则）。播放中先暂停才能调整。</div>
+	            <div class="meta-rules">
+	              <label class="meta-rule">
+	                <input id="metaExclusiveCell" class="meta-rule-checkbox" type="checkbox" />
+	                <span class="meta-rule-text">单格互斥（A/B/C 不能叠加；冲突随机）</span>
+	              </label>
+	              <label class="meta-rule">
+	                <input id="metaEndOnTop" class="meta-rule-checkbox" type="checkbox" />
+	                <span class="meta-rule-text">到顶结束（任一类型到达顶行则结束）</span>
+	              </label>
+	            </div>
+	            <div id="gameStatus" class="game-status" role="status" aria-live="polite"></div>
+	          </section>
+
+	          <section class="panel-section">
+	            <h3 class="section-title">方向规则</h3>
+	            <div class="section-hint">
+	              黑：必须为活；红叉：必须为空；空白：不关心。播放中先暂停才能调整。
+            </div>
+
+	            <div class="atom-group">
+	              <div class="atom-title">出生（空 → 活）</div>
+	              <div id="birthRules" class="card-grid"></div>
+	            </div>
+
+	            <div class="atom-group">
+	              <div class="atom-title">死亡（活 → 空）</div>
+	              <div id="deathRules" class="card-grid"></div>
+	            </div>
+	          </section>
+	        </fieldset>
+	      </aside>
+    </main>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
